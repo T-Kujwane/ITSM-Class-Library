@@ -33,8 +33,21 @@ public final class Ticket {
         this.assignedTo = assignedTo;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.priority = new TicketPriority(ticketId, Priority.Level.LOW.toString());
     }
-
+    
+    public Ticket(int ticketId, String title, String description, String status, int createdBy, int assignedTo, Date createdAt, Date updatedAt, String priority) {
+        this.ticketId = ticketId;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.createdBy = createdBy;
+        this.assignedTo = assignedTo;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.priority = new TicketPriority(ticketId, priority);
+    }
+    
     public Ticket(String title, String description, String status, int userId) {
         setTitle(title);
         setDescription(description);
@@ -66,4 +79,13 @@ public final class Ticket {
 
     public Date getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Date updatedAt) { this.updatedAt = updatedAt; }
+
+    public TicketPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(TicketPriority priority) {
+        this.priority = priority;
+    }
+    
 }

@@ -1,10 +1,6 @@
 package za.ac.tut.model;
 
-/**
- *
- * @author Thato Keith Kujwane
- */
-public class TicketPriority extends Priority{
+public class TicketPriority extends Priority {
     private int ticketID;
 
     public TicketPriority(int ticketID, int priorityId, String priorityName, int slaTime) {
@@ -29,5 +25,4 @@ public class TicketPriority extends Priority{
     public void setTicketID(int ticketID) {
         this.ticketID = ticketID;
     }
-    
 }

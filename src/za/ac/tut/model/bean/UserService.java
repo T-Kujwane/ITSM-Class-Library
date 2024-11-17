@@ -2,7 +2,6 @@ package za.ac.tut.model.bean;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import javax.ejb.Remote;
 import za.ac.tut.model.User;
 

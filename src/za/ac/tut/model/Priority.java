@@ -10,22 +10,22 @@ public class Priority {
     }
     
     private int priorityId;
-    private String priorityName;
+    private String priorityLevel;
     private int slaTime;
     
-    public Priority(int priorityId, String priorityName, int slaTime) {
+    public Priority(int priorityId, String priorityLevel, int slaTime) {
         this.priorityId = priorityId;
-        this.priorityName = priorityName;
+        this.priorityLevel = priorityLevel;
         this.slaTime = slaTime;
     }
     
-    public Priority(String priorityName, int sla){
-        this.priorityName = priorityName;
+    public Priority(String priorityLevel, int sla){
+        this.priorityLevel = priorityLevel;
         this.slaTime = sla;
     }
     
     public Priority(String name){
-        this.priorityName = name;
+        this.priorityLevel = name;
     }
     
     // Getters and Setters
@@ -38,12 +38,12 @@ public class Priority {
         this.priorityId = priorityId;
     }
 
-    public String getPriorityName() {
-        return priorityName;
+    public String getPriorityLevel() {
+        return priorityLevel;
     }
 
-    public void setPriorityName(String priorityName) {
-        this.priorityName = priorityName;
+    public void setPriorityLevel(String priorityLevel) {
+        this.priorityLevel = priorityLevel;
     }
 
     public int getSlaTime() {

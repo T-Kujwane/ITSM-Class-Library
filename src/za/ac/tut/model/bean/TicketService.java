@@ -2,9 +2,9 @@ package za.ac.tut.model.bean;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import javax.ejb.Remote;
 import za.ac.tut.model.Ticket;
+import za.ac.tut.model.User;
 
 @Remote
 public interface TicketService {
@@ -15,6 +15,8 @@ public interface TicketService {
 
     public boolean updateTicketStatus(int ticketId, String status, int updatedBy, String comment) throws ClassNotFoundException, SQLException;
 
+    public boolean updateTicketStatus(int ticketId, String title, String description, String status, String priority) throws ClassNotFoundException, SQLException;
+
     public List<Ticket> getTicketsByStatus(String status) throws SQLException, ClassNotFoundException;
 
     public List<Ticket> getAllTickets() throws SQLException, ClassNotFoundException;
@@ -22,4 +24,6 @@ public interface TicketService {
     int getTotalTickets() throws SQLException, ClassNotFoundException;
 
     List<Ticket> getTicketsByPriority(String priority) throws SQLException, ClassNotFoundException;
+
+    public Ticket getTicketById(int ticketId) throws SQLException, ClassNotFoundException;
 }
