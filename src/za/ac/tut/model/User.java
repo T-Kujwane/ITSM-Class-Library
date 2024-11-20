@@ -24,12 +24,16 @@ public class User {
     }
     
     public User(int userID, String username, String password, String fullName, String email, int roleId) {
-        setUserId(userID);
+        this.setUserId(userID);
         this.username = username;
         this.password = password;
         this.fullName = fullName;
         this.email = email;
         this.roleId = roleId;
+    }
+    
+    public User(int userID){
+        setUserId(userID);
     }
 
     // Getters and Setters

@@ -2,8 +2,20 @@ package za.ac.tut.model;
 
 import java.util.Date;
 
-public final class Ticket {
+public final class Ticket implements Comparable<Ticket>{
     public Ticket(){}
+
+    @Override
+    public int compareTo(Ticket o) {
+        if(o.getTicketId() == this.getTicketId()){
+            return 0;
+        }else{
+            if(o.getTicketId() > getTicketId()){
+                return 1;
+            }
+        }
+        return -1;
+    }
     
     public enum Status {
         OPEN,
@@ -18,7 +30,7 @@ public final class Ticket {
     private String description;
     private String status;
     private int createdBy;
-    private int assignedTo;
+    private User assignedTo;
     private Date createdAt;
     private Date updatedAt;
     private TicketPriority priority;
@@ -30,7 +42,7 @@ public final class Ticket {
         this.description = description;
         this.status = status;
         this.createdBy = createdBy;
-        this.assignedTo = assignedTo;
+        this.assignedTo = new User(assignedTo);
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.priority = new TicketPriority(ticketId, Priority.Level.LOW.toString());
@@ -42,7 +54,7 @@ public final class Ticket {
         this.description = description;
         this.status = status;
         this.createdBy = createdBy;
-        this.assignedTo = assignedTo;
+        this.assignedTo = new User(assignedTo);
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.priority = new TicketPriority(ticketId, priority);
@@ -71,8 +83,9 @@ public final class Ticket {
     public int getCreatedBy() { return createdBy; }
     public void setCreatedBy(int createdBy) { this.createdBy = createdBy; }
 
-    public int getAssignedTo() { return assignedTo; }
-    public void setAssignedTo(int assignedTo) { this.assignedTo = assignedTo; }
+    public User getAssignedTo() { return assignedTo; }
+    public void setAssignedTo(int assignedTo) { this.assignedTo = new User(assignedTo); }
+    public void setAssignedTo(User assignedTo) {this.assignedTo = assignedTo;}
 
     public Date getCreatedAt() { return createdAt; }
     public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
@@ -86,6 +99,28 @@ public final class Ticket {
 
     public void setPriority(TicketPriority priority) {
         this.priority = priority;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 17 * hash + this.ticketId;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Ticket other = (Ticket) obj;
+        return this.ticketId == other.ticketId;
     }
     
 }
