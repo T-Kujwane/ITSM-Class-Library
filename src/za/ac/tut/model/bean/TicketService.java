@@ -26,5 +26,7 @@ public interface TicketService {
     List<Ticket> getTicketsByPriority(String priority) throws SQLException, ClassNotFoundException;
 
     public Ticket getTicketById(int ticketId) throws SQLException, ClassNotFoundException;
-    
+
+    public boolean updateTicketStatusAndComment(int ticketId, String status, String comment, int updatedBy) throws ClassNotFoundException, SQLException;
+
 }
