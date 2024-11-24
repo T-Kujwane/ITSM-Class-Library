@@ -30,5 +30,10 @@ public interface UserService {
 
     boolean updateUser(int userID, String username, String fullname, String email, int roleID) throws ClassNotFoundException, SQLException;
 
-}
+    public boolean checkUserExists(String usernameOrEmail) throws SQLException, ClassNotFoundException;
 
+    boolean updateUsername(String usernameOrEmail, String newUsername) throws SQLException, ClassNotFoundException;
+
+    boolean updatePassword(String usernameOrEmail, String newPassword) throws SQLException, ClassNotFoundException;
+
+}
