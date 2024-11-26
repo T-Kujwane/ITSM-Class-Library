@@ -35,7 +35,7 @@ public final class Ticket implements Comparable<Ticket>{
     private String title;
     private String description;
     private String status;
-    private int createdBy;
+    private User createdBy;
     private User assignedTo;
     private Date createdAt;
     private Date updatedAt;
@@ -43,13 +43,13 @@ public final class Ticket implements Comparable<Ticket>{
     private List<TicketUpdate> ticketUpdates;
     
     // Constructor
-    public Ticket(int ticketId, String title, String description, String status, int createdBy, int assignedTo, Date createdAt, Date updatedAt) {
+    public Ticket(int ticketId, String title, String description, String status, User createdBy, User assignedTo, Date createdAt, Date updatedAt) {
         this.ticketId = ticketId;
         this.title = title;
         this.description = description;
         this.status = status;
         this.createdBy = createdBy;
-        this.assignedTo = new User(assignedTo);
+        this.assignedTo = assignedTo;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.priority = new TicketPriority(ticketId, Priority.Level.LOW.toString());
@@ -60,7 +60,7 @@ public final class Ticket implements Comparable<Ticket>{
         this.ticketUpdates = new ArrayList<>();
     }
 
-    public Ticket(int ticketId, String title, String description, String status, int createdBy, User assignedTo, Date createdAt, Date updatedAt, TicketPriority priority, List<TicketUpdate> ticketUpdates) {
+    public Ticket(int ticketId, String title, String description, String status, User createdBy, User assignedTo, Date createdAt, Date updatedAt, TicketPriority priority, List<TicketUpdate> ticketUpdates) {
         this.ticketId = ticketId;
         this.title = title;
         this.description = description;
@@ -73,24 +73,24 @@ public final class Ticket implements Comparable<Ticket>{
         this.ticketUpdates = ticketUpdates;
     }
     
-    public Ticket(int ticketId, String title, String description, String status, int createdBy, int assignedTo, Date createdAt, Date updatedAt, String priority) {
+    public Ticket(int ticketId, String title, String description, String status, User createdBy, User assignedTo, Date createdAt, Date updatedAt, String priority) {
         this.ticketId = ticketId;
         this.title = title;
         this.description = description;
         this.status = status;
         this.createdBy = createdBy;
-        this.assignedTo = new User(assignedTo);
+        this.assignedTo = assignedTo;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.priority = new TicketPriority(ticketId, priority);
         initializeUpdatesList();
     }
     
-    public Ticket(String title, String description, String status, int userId) {
+    public Ticket(String title, String description, String status, User creator) {
         setTitle(title);
         setDescription(description);
         setStatus(status);
-        setCreatedBy(userId);
+        setCreatedBy(creator);
         initializeUpdatesList();
     }
 
@@ -107,11 +107,11 @@ public final class Ticket implements Comparable<Ticket>{
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
-    public int getCreatedBy() { return createdBy; }
-    public void setCreatedBy(int createdBy) { this.createdBy = createdBy; }
+    public User getCreatedBy() { return createdBy; }
+    public void setCreatedBy(User createdBy) { this.createdBy = createdBy; }
 
     public User getAssignedTo() { return assignedTo; }
-    public void setAssignedTo(int assignedTo) { this.assignedTo = new User(assignedTo); }
+    
     public void setAssignedTo(User assignedTo) {this.assignedTo = assignedTo;}
 
     public Date getCreatedAt() { return createdAt; }
@@ -175,12 +175,23 @@ public final class Ticket implements Comparable<Ticket>{
         
         //status#who#comment#time
         for (TicketUpdate u : getTicketUpdates()){
-            LocalDateTime dt = u.getUpdatedOn().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-            DateTimeFormatter f = DateTimeFormatter.ofPattern("d MMMM yyyy 'at' HH:mm");
-            String date = dt.format(f);
+            String date = getFormattedUpdatedOnDate(u);
             
             updates = updates.concat(u.getTicketStatus().replace("_", " ").replaceFirst(Character.toString(u.getTicketStatus().charAt(0)), Character.toString(u.getTicketStatus().toUpperCase().charAt(0))).concat("#".concat(u.getUpdatedBy().getFullName().concat("#".concat(u.getComment().concat("#".concat(date.concat("||"))))))));
         }
         return updates;
     }
+
+    public String getFormattedUpdatedOnDate(TicketUpdate u) {
+        return getFormattedDate(u.getUpdatedOn());
+    }
+
+    public String getFormattedDate(Date d) {
+        LocalDateTime dt = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("d MMMM yyyy 'at' HH:mm");
+        String date = dt.format(f);
+        return date;
+    }
+    
+    
 }
