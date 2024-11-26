@@ -28,5 +28,10 @@ public interface TicketService {
     public Ticket getTicketById(int ticketId) throws SQLException, ClassNotFoundException;
 
     public boolean updateTicketStatusAndComment(int ticketId, String status, String comment, int updatedBy) throws ClassNotFoundException, SQLException;
+    
+    public List<Ticket> getTicketsByUserId(int userId) throws ClassNotFoundException, SQLException;
+    
+    List<Ticket> getTicketsAssignedTo(int userID) throws SQLException, ClassNotFoundException;
 
+    public boolean update(int ticketID, String comment, String status, int updatedBy) throws SQLException, ClassNotFoundException;
 }
