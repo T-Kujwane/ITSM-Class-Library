@@ -13,14 +13,7 @@ public final class Ticket implements Comparable<Ticket>{
 
     @Override
     public int compareTo(Ticket o) {
-        if(o.getTicketId() == this.getTicketId()){
-            return 0;
-        }else{
-            if(o.getTicketId() > getTicketId()){
-                return 1;
-            }
-        }
-        return -1;
+        return Integer.compare(this.getTicketId(), o.getTicketId());
     }
     
     public enum Status {
@@ -37,13 +30,14 @@ public final class Ticket implements Comparable<Ticket>{
     private String status;
     private User createdBy;
     private User assignedTo;
+    private User escalatedTo;
     private Date createdAt;
     private Date updatedAt;
     private TicketPriority priority;
     private List<TicketUpdate> ticketUpdates;
     
     // Constructor
-    public Ticket(int ticketId, String title, String description, String status, User createdBy, User assignedTo, Date createdAt, Date updatedAt) {
+    public Ticket(int ticketId, String title, String description, String status, User createdBy, User assignedTo, User escalatedTo, Date createdAt, Date updatedAt) {
         this.ticketId = ticketId;
         this.title = title;
         this.description = description;
@@ -54,13 +48,14 @@ public final class Ticket implements Comparable<Ticket>{
         this.updatedAt = updatedAt;
         this.priority = new TicketPriority(ticketId, Priority.Level.LOW.toString());
         initializeUpdatesList();
+        setEscalatedTo(escalatedTo);
     }
 
     private void initializeUpdatesList() {
         this.ticketUpdates = new ArrayList<>();
     }
 
-    public Ticket(int ticketId, String title, String description, String status, User createdBy, User assignedTo, Date createdAt, Date updatedAt, TicketPriority priority, List<TicketUpdate> ticketUpdates) {
+    public Ticket(int ticketId, String title, String description, String status, User createdBy, User assignedTo,User escalatedTo, Date createdAt, Date updatedAt, TicketPriority priority, List<TicketUpdate> ticketUpdates) {
         this.ticketId = ticketId;
         this.title = title;
         this.description = description;
@@ -71,9 +66,10 @@ public final class Ticket implements Comparable<Ticket>{
         this.updatedAt = updatedAt;
         this.priority = priority;
         this.ticketUpdates = ticketUpdates;
+        setEscalatedTo(escalatedTo);
     }
     
-    public Ticket(int ticketId, String title, String description, String status, User createdBy, User assignedTo, Date createdAt, Date updatedAt, String priority) {
+    public Ticket(int ticketId, String title, String description, String status, User createdBy, User assignedTo, User escalatedTo, Date createdAt, Date updatedAt, String priority) {
         this.ticketId = ticketId;
         this.title = title;
         this.description = description;
@@ -84,6 +80,7 @@ public final class Ticket implements Comparable<Ticket>{
         this.updatedAt = updatedAt;
         this.priority = new TicketPriority(ticketId, priority);
         initializeUpdatesList();
+        setEscalatedTo(escalatedTo);
     }
     
     public Ticket(String title, String description, String status, User creator) {
@@ -165,6 +162,14 @@ public final class Ticket implements Comparable<Ticket>{
     public List<TicketUpdate> getTicketUpdates() {
         return ticketUpdates;
     }
+
+    public User getEscalatedTo() {
+        return escalatedTo;
+    }
+
+    public void setEscalatedTo(User escalatedTo) {
+        this.escalatedTo = escalatedTo;
+    }
     
     public String getUserTicketID(){
         return "REP00000" + getTicketId();
@@ -193,5 +198,13 @@ public final class Ticket implements Comparable<Ticket>{
         return date;
     }
     
-    
+    public boolean isClosed(){
+        switch (getStatus().toLowerCase()) {
+            case "resolved":
+            case "closed":
+                return true;
+            default:
+                return false;
+        }
+    }
 }

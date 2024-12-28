@@ -25,13 +25,15 @@ public interface TicketService {
 
     List<Ticket> getTicketsByPriority(String priority) throws SQLException, ClassNotFoundException;
 
-    public Ticket getTicketById(int ticketId) throws SQLException, ClassNotFoundException;
-
-    public boolean updateTicketStatusAndComment(int ticketId, String status, String comment, int updatedBy) throws ClassNotFoundException, SQLException;
+    public Ticket getTicketById(int ticketId) throws SQLException, ClassNotFoundException;    
     
     public List<Ticket> getTicketsByUserId(int userId) throws ClassNotFoundException, SQLException;
     
     List<Ticket> getTicketsAssignedTo(int userID) throws SQLException, ClassNotFoundException;
 
     public boolean update(int ticketID, String comment, String status, int updatedBy) throws SQLException, ClassNotFoundException;
+
+    public boolean escalateTicket(int ticketID, int escalatedTO, String status, int updatedBy, String comment) throws SQLException, ClassNotFoundException;
+    
+    public List<Ticket> getTicketsEscalatedTo(int userID) throws SQLException, ClassNotFoundException;
 }

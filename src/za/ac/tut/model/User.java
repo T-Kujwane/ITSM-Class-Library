@@ -58,7 +58,6 @@ public class User {
     }
 
     public String getFullName() {
-        System.out.println("Getting full name: " + this.fullName);
         return fullName;
     }
 
